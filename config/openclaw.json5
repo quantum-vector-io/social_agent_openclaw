@@ -1,0 +1,109 @@
+{
+  // ============================================
+  // Social Content Agent - OpenClaw Configuration
+  // Deploy to: ~/.openclaw/openclaw.json
+  // ============================================
+
+  // Agent Identity
+  identity: {
+    name: "ContentBot",
+    theme: "creative social media content strategist",
+    emoji: "📝",
+  },
+
+  // AI Model & Agent Settings
+  agents: {
+    defaults: {
+      workspace: "~/.openclaw/workspace",
+
+      model: {
+        // Primary model - OpenAI GPT-4o (best balance of quality & speed)
+        // Swap to "anthropic/claude-sonnet-4-5" or "ollama/llama3" for flexibility
+        primary: "openai/gpt-4o",
+      },
+
+      // Memory search with OpenAI embeddings + hybrid BM25/vector
+      memorySearch: {
+        provider: "openai",
+        model: "text-embedding-3-small",
+        query: {
+          hybrid: {
+            enabled: true,
+            vectorWeight: 0.7,
+            textWeight: 0.3,
+          },
+        },
+      },
+
+      // Context compaction with memory flush (preserves learning)
+      compaction: {
+        reserveTokensFloor: 20000,
+        memoryFlush: {
+          enabled: true,
+          softThresholdTokens: 4000,
+        },
+      },
+    },
+  },
+
+  // Session Behavior
+  session: {
+    scope: "per-sender",
+    reset: {
+      mode: "idle",
+      idleMinutes: 120,
+    },
+    resetTriggers: ["/new", "/reset"],
+  },
+
+  // Channels Configuration
+  channels: {
+    telegram: {
+      enabled: true,
+      botToken: "${TELEGRAM_BOT_TOKEN}",
+
+      // Security: only allow your Telegram user ID
+      // Replace YOUR_TELEGRAM_USER_ID with your actual ID (see README for how to find it)
+      dmPolicy: "allowlist",
+      allowFrom: ["YOUR_TELEGRAM_USER_ID"],
+
+      // Bot menu commands (registered with Telegram)
+      customCommands: [
+        { command: "generate", description: "Generate content for a topic" },
+        { command: "brainstorm", description: "Start a brainstorming session" },
+        { command: "platforms", description: "List supported platforms and limits" },
+        { command: "preferences", description: "View your saved preferences" },
+        { command: "feedback", description: "Give feedback on generated content" },
+        { command: "new", description: "Start a fresh conversation" },
+      ],
+    },
+  },
+
+  // Message Routing
+  routing: {
+    queue: {
+      mode: "collect",
+      debounceMs: 1500,
+    },
+  },
+
+  // Plugins
+  plugins: {
+    enabled: true,
+    entries: {
+      "social-content-tool": {
+        enabled: true,
+        config: {
+          defaultPlatforms: ["instagram", "linkedin", "twitter"],
+        },
+      },
+    },
+  },
+
+  // Logging
+  logging: {
+    level: "info",
+    consoleLevel: "info",
+    consoleStyle: "pretty",
+  },
+}

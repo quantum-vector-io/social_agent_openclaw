@@ -1,0 +1,12 @@
+{
+  "name": "social-content-tool",
+  "version": "1.0.0",
+  "description": "OpenClaw plugin for social media content validation and platform utilities",
+  "main": "index.ts",
+  "openclaw": {
+    "extensions": ["./index.ts"]
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.32.0"
+  }
+}

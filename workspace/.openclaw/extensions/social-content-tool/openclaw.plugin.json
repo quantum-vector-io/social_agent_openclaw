@@ -1,0 +1,33 @@
+{
+  "id": "social-content-tool",
+  "name": "Social Content Tool",
+  "description": "Content validation tool and platform commands for social media content generation",
+  "version": "1.0.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "defaultPlatforms": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": [
+            "instagram",
+            "threads",
+            "linkedin",
+            "twitter",
+            "tiktok",
+            "youtube",
+            "telegram"
+          ]
+        },
+        "description": "Default platforms to generate content for when none specified"
+      }
+    }
+  },
+  "uiHints": {
+    "defaultPlatforms": {
+      "label": "Default Target Platforms"
+    }
+  }
+}
